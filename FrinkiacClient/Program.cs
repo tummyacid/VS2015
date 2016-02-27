@@ -35,8 +35,7 @@ namespace FrinkiacClient
                 collection.Optimize();
 
                 //Upload gif to imgur
-                string clientID = "key";
-                wc.Headers.Add("Authorization", "Client-ID " + clientID);
+                wc.Headers.Add("Authorization", "Client-ID " +  System.Configuration.ConfigurationManager.AppSettings["imgurClientID"].ToString());
                 NameValueCollection values = new NameValueCollection
                     {
                         { "image", Convert.ToBase64String(collection.ToByteArray(MagickFormat.Gif)) }

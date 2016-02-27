@@ -44,7 +44,7 @@ namespace SunFaderUI
 
             serial.SendCommand(new FadeCommand(
                destPin
-                , Convert.ToByte(nudMax.Value) 
+                , Convert.ToByte(nudMax.Value)
                 , Convert.ToByte(nudStep.Value)
                 , Convert.ToByte(nudDelay.Value)));
         }
@@ -54,10 +54,35 @@ namespace SunFaderUI
         {
             serial.SendCommand(new FadeCommand(
     Pins.Warm
-    , Convert.ToByte(255) 
+    , Convert.ToByte(5)
     , Convert.ToByte(1)
-    , Convert.ToByte(255)));
+    , Convert.ToByte(1)));
+
+
+            serial.SendCommand(new FadeCommand(
+    Pins.Warm
+    , Convert.ToByte(255)
+    , Convert.ToByte(1)
+    , Convert.ToByte(1)));
 
         }
+
+        private void trkIntensity_Scroll(object sender, EventArgs e)
+        {
+            Pins destPin;
+
+            if (radWarm.Checked)
+                destPin = Pins.Warm;
+            else
+                destPin = Pins.Cold;
+
+            nudMax.Value = trkIntensity.Value;
+            serial.SendCommand(new FadeCommand(
+      destPin
+       , Convert.ToByte(nudMax.Value)
+       , Convert.ToByte(nudStep.Value)
+       , Convert.ToByte(nudDelay.Value)));
+        }
+        
     }
 }
