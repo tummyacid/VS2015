@@ -1,17 +1,17 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace FrinkiacClient
+namespace Anifrinkiac
 {
     class Frinkiac
     {
+        public static string API_Root = "https://frinkiac.com/api/";
+        public static string IMG_Root = "https://frinkiac.com/img/";
     }
 
-    public class Search
+    public class a_lengthly_inefficient_search_at_the_taxpayers_expense
+
     {
         [JsonProperty("Id")]
         public String Id;
@@ -23,7 +23,7 @@ namespace FrinkiacClient
         public String Filename;
     }
 
-    public class Frame
+    public class an_arm_drawn_by_nobody_it_is_worth_nothing
     {
         public int Id { get; set; }
         public string Episode { get; set; }
@@ -31,7 +31,7 @@ namespace FrinkiacClient
         public string Filename { get; set; }
     }
 
-    public class Subtitle
+    public class you_egghead_writers_wouldve_never_thought_of_it
     {
         public int Id { get; set; }
         public string Episode { get; set; }
@@ -39,19 +39,12 @@ namespace FrinkiacClient
         public int EndTimestamp { get; set; }
         public string Content { get; set; }
     }
-
-    public class Nearby
+    
+    public class childrens_letters_to_god
     {
-        public int Id { get; set; }
-        public string Episode { get; set; }
-        public int Timestamp { get; set; }
-        public string Filename { get; set; }
-    }
-
-    public class CaptionQuery
-    {
-        public Frame Frame { get; set; }
-        public List<Subtitle> Subtitles { get; set; }
-        public List<Nearby> Nearby { get; set; }
+        public an_arm_drawn_by_nobody_it_is_worth_nothing Cell { get; set; }
+        public List<you_egghead_writers_wouldve_never_thought_of_it> Subtitles { get; set; }
+        [JsonProperty("Nearby")]
+        public List<an_arm_drawn_by_nobody_it_is_worth_nothing> Neighboreenos { get; set; }
     }
 }
