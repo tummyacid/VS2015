@@ -12,6 +12,7 @@ namespace Anifrinkiac
     class Program
     {
         const int resultIndex = 0;
+        static int frameBatches = 1;
         [STAThread]
         static void Main(string[] args)
         {
@@ -30,22 +31,35 @@ namespace Anifrinkiac
                 //Retrieve captions associated with result
                 childrens_letters_to_god captionResult = JsonConvert.DeserializeObject<childrens_letters_to_god>(wc.DownloadString(Frinkiac.API_Root
                     + "caption?e=" + searchResult[resultIndex].Episode 
-                    + "&t=" + searchResult[resultIndex].Timestamp));  
+                    + "&t=" + searchResult[resultIndex].Timestamp));
                 
-                foreach (an_arm_drawn_by_nobody_it_is_worth_nothing frame in captionResult.Neighboreenos)
-                {   //request each frame in captionQuery and add to our MagickImageCollection for the animation
-                    MagickImage frameImage = new MagickImage(wc.DownloadData(Frinkiac.IMG_Root 
-                        + frame.Episode + "/" 
-                        + frame.Timestamp + ".jpg"), new MagickReadSettings());
+                while (frameBatches > 0)
+                {
+                    foreach (an_arm_drawn_by_nobody_it_is_worth_nothing frame in captionResult.Neighboreenos)
+                    {   //request each frame in captionQuery and add to our MagickImageCollection for the animation
+                        MagickImage frameImage = new MagickImage(wc.DownloadData(Frinkiac.IMG_Root
+                            + frame.Episode + "/"
+                            + frame.Timestamp + ".jpg"), new MagickReadSettings());
 
-                    frameImage.AnimationDelay = 20;
+                        frameImage.AnimationDelay = 20;
 
-                    foreach (Anifrinkiac.you_egghead_writers_wouldve_never_thought_of_it caption in captionResult.Subtitles)       //Check out the subtitle results
-                        if ((frame.Timestamp > caption.StartTimestamp) 
-                         && (frame.Timestamp < caption.EndTimestamp) )
-                            frameImage.Annotate(caption.Content, Gravity.South);    //Apply captions
+                        foreach (Anifrinkiac.you_egghead_writers_wouldve_never_thought_of_it caption in captionResult.Subtitles)       //Check out the subtitle results
+                            if ((frame.Timestamp > caption.StartTimestamp)
+                             && (frame.Timestamp < caption.EndTimestamp))
+                                frameImage.Annotate(caption.Content, Gravity.South);    //Apply captions
 
-                    animation.Add(frameImage);
+                        animation.Add(frameImage);
+                    }                     //Retrieve the next set of frames
+                    if (frameBatches-- > 0)
+                    {
+                        captionResult = JsonConvert.DeserializeObject<childrens_letters_to_god>(wc.DownloadString(Frinkiac.API_Root
+                    + "caption?e=" + searchResult[resultIndex].Episode
+                    + "&t=" + captionResult.Neighboreenos[captionResult.Neighboreenos.Count - 1].Timestamp));
+                        //Do it again for all new frames
+                        captionResult = JsonConvert.DeserializeObject<childrens_letters_to_god>(wc.DownloadString(Frinkiac.API_Root
+                            + "caption?e=" + searchResult[resultIndex].Episode
+                            + "&t=" + captionResult.Neighboreenos[captionResult.Neighboreenos.Count - 1].Timestamp)); 
+                    }
                 }
 
                 // Optionally reduce colors
