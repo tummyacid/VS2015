@@ -11,8 +11,8 @@ namespace Anifrinkiac
 {
     class Program
     {
-        const int resultIndex = 0;
-        static int frameBatches = 1;
+        const int resultIndex = 6;
+        static int frameBatches = 5;
         [STAThread]
         static void Main(string[] args)
         {
